@@ -13,16 +13,18 @@ function EditDeck() {
 
     const [deck, setDeck] = useState({});
 
+    
+
     useEffect(() => {
+      const loadDeck = async () => {
+        const response = await readDeck(deckId);
+        setDeck(response);
+        setName(response.name)
+        setDescription(response.description)
+      }
+
         loadDeck();
     }, [deckId]);
-
-    const loadDeck = async () => {
-      const response = await readDeck(deckId);
-      setDeck(response);
-      setName(response.name)
-      setDescription(response.description)
-    }
 
     const handleNameChange = (event) => setName(event.target.value);
 

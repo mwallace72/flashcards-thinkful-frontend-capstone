@@ -26,7 +26,8 @@ function EditCard({}) {
     }, [deckId, cardId]);
 
     const handleSubmit = async (cardFormData) => {
-        await updateCard({id: card.id, front: cardFormData.front, back: cardFormData.back})
+        console.log({id: card.id, front: cardFormData.front, back: cardFormData.back}, 'update');
+        await updateCard({id: card.id, front: cardFormData.front, back: cardFormData.back, deckId: Number(deckId) })
         // TODO cards don't reload
         history.push(`/decks/${deckId}`)
       }

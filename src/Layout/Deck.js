@@ -14,14 +14,19 @@ function Deck() {
 
     const [deck, setDeck] = useState({});
 
-    useEffect(() => {
-        loadDeck();
-    }, [deckId]);
+    const loadDeck = async () => {
+      const response = await readDeck(deckId);
+      setDeck(response);
+    }
 
-  const loadDeck = async () => {
-    const response = await readDeck(deckId);
-    setDeck(response);
-}
+  useEffect(() => {
+    const loadDeck = async () => {
+      const response = await readDeck(deckId);
+      setDeck(response);
+    }
+
+    loadDeck();
+  }, [deckId]);
 
   const deleteFunc = async () => {
     if (window.confirm("Delete this deck?")){

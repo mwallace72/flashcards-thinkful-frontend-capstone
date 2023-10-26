@@ -5,26 +5,21 @@ import { useParams } from "react-router-dom/cjs/react-router-dom.min";
 import CardForm from "./CardForm";
 
 function AddCard({}) {
-    const [front, setFront] = useState("")
-    const [back, setBack] = useState("")
     const {deckId} = useParams()
 
     const [deck, setDeck] = useState({});
 
     useEffect(() => {
+        const loadDeck = async () => {
+            const response = await readDeck(deckId);
+            setDeck(response);
+        }
+
         loadDeck();
     }, [deckId]);
 
-    const loadDeck = async () => {
-        const response = await readDeck(deckId);
-        setDeck(response);
-    }
-
-    const handleFrontChange = (event) => setFront(event.target.value);
-
-    const handleBackChange = (event) => setBack(event.target.value);
-
     const handleSubmit = async (cardFormData) => {
+        console.log(deckId, cardFormData, 'create');
         await createCard(deckId, cardFormData)
         // TODO decks don't reload on Done
       };

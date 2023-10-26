@@ -11,15 +11,17 @@ function StudyDeck() {
     const [currentCardNumber, setCurrentCardNumber] = useState(1)
     const [flipped, setFlipped] = useState(false)
 
+    
+
     useEffect(() => {
+        const loadDeck = async () => {
+            const response = await readDeck(deckId);
+            setDeck(response);
+            setCardLength(response.cards.length)
+        }
+
         loadDeck();
     }, [deckId]);
-
-    const loadDeck = async () => {
-        const response = await readDeck(deckId);
-        setDeck(response);
-        setCardLength(response.cards.length)
-    }
 
     const nextCard = () => {
         if (currentCardNumber == cardLength) setCurrentCardNumber(1)
