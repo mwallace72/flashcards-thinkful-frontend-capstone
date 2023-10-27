@@ -24,20 +24,19 @@ function StudyDeck() {
     }, [deckId]);
 
     const nextCard = () => {
-        if (currentCardNumber == cardLength) setCurrentCardNumber(1)
+        if (currentCardNumber === cardLength) {
+            if (window.confirm("Restart cards?")) {
+                setCurrentCardNumber(1)
+            } else {
+                history.push("/")
+            }
+        }
         else setCurrentCardNumber(currentCardNumber+1)
         setFlipped(false)
     }
     
     const flipCard = () => {
         setFlipped(!flipped)
-        if (currentCardNumber == cardLength) {
-            if (window.confirm("Restart cards?")) {
-                nextCard()
-            } else {
-                history.push("/")
-            }
-        }
     }
 
   return (

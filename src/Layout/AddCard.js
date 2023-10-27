@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
 import { createCard, readDeck } from "../utils/api";
 import { useParams } from "react-router-dom/cjs/react-router-dom.min";
 import CardForm from "./CardForm";
 
-function AddCard({}) {
+function AddCard({loadDeck}) {
     const {deckId} = useParams()
 
     const [deck, setDeck] = useState({});
@@ -21,7 +20,7 @@ function AddCard({}) {
     const handleSubmit = async (cardFormData) => {
         console.log(deckId, cardFormData, 'create');
         await createCard(deckId, cardFormData)
-        // TODO decks don't reload on Done
+        await loadDeck()
       };
 
   return (

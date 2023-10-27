@@ -3,12 +3,12 @@ import DeckSummary from "./DeckSummary";
 import { Link } from "react-router-dom";
 import { deleteDeck } from "../utils/api";
 
-function Decklist({starterDecks, reloadDecks}) {
+function Decklist({starterDecks, deleteFunc}) {
 
-  const deleteFunc = async (id) => {
+  const removeDeck = async (id) => {
     if (window.confirm("Delete this deck?")){
       await deleteDeck(id)
-      // await reloadDecks()
+      deleteFunc(id)
     }
   }
 
@@ -16,7 +16,7 @@ function Decklist({starterDecks, reloadDecks}) {
     <React.Fragment>
       <Link to="/decks/new"><button>Create Deck</button></Link>
       {starterDecks.map((deck, index) => 
-        <DeckSummary key={index} deck={deck} deleteDeck={() => deleteFunc(deck.id)} />
+        <DeckSummary key={index} deck={deck} deleteDeck={() => removeDeck(deck.id)} />
       )}
     </React.Fragment>
   );

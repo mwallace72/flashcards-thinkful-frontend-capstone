@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
 import { updateDeck, readDeck } from "../utils/api";
 import { useHistory } from "react-router-dom";
 import { useParams } from "react-router-dom/cjs/react-router-dom.min";
 
-function EditDeck() {
+function EditDeck({loadDeck}) {
     const [name, setName] = useState("")
     const [description, setDescription] = useState("")
     const history = useHistory()
@@ -16,14 +15,14 @@ function EditDeck() {
     
 
     useEffect(() => {
-      const loadDeck = async () => {
+      const loadDeckDetails = async () => {
         const response = await readDeck(deckId);
         setDeck(response);
         setName(response.name)
         setDescription(response.description)
       }
 
-        loadDeck();
+        loadDeckDetails();
     }, [deckId]);
 
     const handleNameChange = (event) => setName(event.target.value);
@@ -33,14 +32,14 @@ function EditDeck() {
     const handleSubmit = async (event) => {
         event.preventDefault();
         console.log("Submitted:", name, description);
-        const response = await updateDeck({name, description, id: deck.id})
+        await updateDeck({name, description, id: deck.id})
         setName("");
         setDescription("");
-        // TODO: not reloading
-        goToDeck()
+        await goToDeck()
       };
       
-      const goToDeck = () => {
+      const goToDeck = async () => {
+        await loadDeck()
         history.push(`/decks/${deck.id}`)
       }
 

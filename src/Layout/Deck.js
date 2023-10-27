@@ -8,7 +8,7 @@ import AddCard from "./AddCard";
 import EditCard from "./EditCard";
 import StudyDeck from "./StudyDeck";
 
-function Deck() {
+function Deck({deleteDeckFunc}) {
     const {deckId} = useParams()
     const history = useHistory()
 
@@ -31,6 +31,7 @@ function Deck() {
   const deleteFunc = async () => {
     if (window.confirm("Delete this deck?")){
       await deleteDeck(deck.id)
+      deleteDeckFunc(deck.id)
       history.push("/")
       // TODO decks don't reload
     }
@@ -65,16 +66,16 @@ function Deck() {
                 )}
             </Route>
             <Route exact path={"/decks/:deckId/edit"}> 
-                <EditDeck deck={deck} />
+                <EditDeck deck={deck} loadDeck={loadDeck} />
             </Route> 
             <Route exact path={"/decks/:deckId/study"}> 
                 <StudyDeck />
             </Route>
             <Route exact path={"/decks/:deckId/cards/new"}>
-                <AddCard />
+                <AddCard loadDeck={loadDeck} />
             </Route>
             <Route exact path={"/decks/:deckId/cards/:cardId/edit"}>
-                <EditCard />
+                <EditCard loadDeckMain={loadDeck} />
             </Route>
       </Switch> 
     </React.Fragment>

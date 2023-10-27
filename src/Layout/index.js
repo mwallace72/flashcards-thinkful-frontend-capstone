@@ -15,7 +15,7 @@ function Layout() {
       const response = await listDecks();
       setStarterDecks(response);
     }
-    
+
     loadDecks();
   }, []);
 
@@ -23,7 +23,14 @@ function Layout() {
     setStarterDecks([...starterDecks, value])
   }
 
-  
+  const removeDeck = (id) => {
+    const dupeDecks = [...starterDecks]
+    const index = dupeDecks.findIndex(deck => deck.id === id)
+    if (index > -1) {
+      dupeDecks.splice(index, 1)
+    }
+    setStarterDecks(dupeDecks)
+  }
 
   return (
     <>
@@ -31,13 +38,13 @@ function Layout() {
       <div className="container">
         <Switch>
           <Route exact path="/">
-            <DeckList starterDecks={starterDecks}/>
+            <DeckList starterDecks={starterDecks} deleteFunc={removeDeck}/>
           </Route>
           <Route exact path="/decks/new">
             <CreateDeck updateDecks={addDeck}/>
           </Route>
           <Route path="/decks/:deckId">
-            <Deck />
+            <Deck deleteDeckFunc={removeDeck}/>
           </Route>
           <Route>
             <NotFound />

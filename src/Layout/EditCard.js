@@ -3,7 +3,7 @@ import { readCard, readDeck, updateCard } from "../utils/api";
 import { useHistory, useParams } from "react-router-dom/cjs/react-router-dom.min";
 import CardForm from "./CardForm";
 
-function EditCard({}) {
+function EditCard({loadDeckMain}) {
     const {deckId, cardId} = useParams()
     const history = useHistory()
 
@@ -28,7 +28,7 @@ function EditCard({}) {
     const handleSubmit = async (cardFormData) => {
         console.log({id: card.id, front: cardFormData.front, back: cardFormData.back}, 'update');
         await updateCard({id: card.id, front: cardFormData.front, back: cardFormData.back, deckId: Number(deckId) })
-        // TODO cards don't reload
+        await loadDeckMain()
         history.push(`/decks/${deckId}`)
       }
 
